@@ -8,23 +8,24 @@ const { errorHandler } = require('./middleware/errorMiddleware');
 
 const app = express();
 
-// --- CORS Configuration ---
-// Ensure FRONTEND_URL is set in Vercel/Render Environment Variables
-const frontendUrl = process.env.FRONTEND_URL;
+// --- CORS Configuration (FORCED FIX) ---
+
+// Define all allowed domains explicitly to bypass any env variable issues.
+const allowedOrigins = [
+    // 1. Your Frontend URL (Origin)
+    'https://task-manager-nl5c.vercel.app', 
+    // 2. Your Local Development Frontend
+    'http://localhost:5173',
+];
 
 app.use(cors({
     origin: (origin, callback) => {
-        // Allow requests with no origin (e.g., Postman, internal calls)
+        // Allow requests with no origin (e.g., Postman, internal Vercel calls)
         if (!origin) {
             return callback(null, true);
         }
         
-        const allowed = [
-            'http://localhost:5173',
-            frontendUrl
-        ];
-
-        if (allowed.includes(origin)) {
+        if (allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
             console.error(`CORS Blocked: Origin ${origin} not in allowed list.`);
@@ -39,7 +40,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false })); 
 
 // --- API Test Route (Health Check) ---
-// This is what will show when you visit the backend URL (task-manager-epxz.vercel.app)
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'Task Manager API is running successfully.' });
 });
