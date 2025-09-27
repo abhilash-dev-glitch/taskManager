@@ -4,9 +4,7 @@ import axios from 'axios';
 const AuthContext = createContext();
 
 // Base API URL for authentication
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api/';
-
-// Now construct the specific endpoint
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api/'; 
 const API_URL = API_BASE + 'auth/'; 
 
 export const AuthProvider = ({ children }) => {
