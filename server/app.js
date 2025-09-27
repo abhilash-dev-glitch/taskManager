@@ -2,37 +2,29 @@ const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const taskRoutes = require('./routes/taskRoutes');
-const path = require('path'); 
 
 // Import the error handling middleware
 const { errorHandler } = require('./middleware/errorMiddleware');
 
 const app = express();
 
-// --- CORS Configuration (Production Ready) ---
-
-// 1. Get the frontend URL from environment variables for deployed app
-// FALLBACK: 'http://localhost:5173' is always allowed for local development
+// --- CORS Configuration ---
 const frontendUrl = process.env.FRONTEND_URL;
 
-// Configure CORS dynamically
 app.use(cors({
     origin: (origin, callback) => {
-        // If there is no origin (same-origin, Postman, etc.), allow it
         if (!origin) {
             return callback(null, true);
         }
         
-        // Define all allowed origins
         const allowed = [
             'http://localhost:5173',
-            frontendUrl // This must be set in Vercel environment variables!
+            frontendUrl
         ];
 
         if (allowed.includes(origin)) {
             callback(null, true);
         } else {
-            // Log the blocked origin for debugging
             console.error(`CORS Blocked: Origin ${origin} not in allowed list.`);
             callback(new Error('Not allowed by CORS'), false);
         }
@@ -43,6 +35,12 @@ app.use(cors({
 // --- Middleware ---
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: false })); 
+
+// --- API Test Route (Optional) ---
+// This is a simple route to confirm the backend is up when navigating to the root URL
+app.get('/', (req, res) => {
+    res.status(200).json({ message: 'Task Manager API is running successfully.' });
+});
 
 // --- API Routes ---
 app.use('/api/auth', authRoutes);
