@@ -9,10 +9,12 @@ const { errorHandler } = require('./middleware/errorMiddleware');
 const app = express();
 
 // --- CORS Configuration ---
+// Ensure FRONTEND_URL is set in Vercel/Render Environment Variables
 const frontendUrl = process.env.FRONTEND_URL;
 
 app.use(cors({
     origin: (origin, callback) => {
+        // Allow requests with no origin (e.g., Postman, internal calls)
         if (!origin) {
             return callback(null, true);
         }
@@ -36,8 +38,8 @@ app.use(cors({
 app.use(express.json()); 
 app.use(express.urlencoded({ extended: false })); 
 
-// --- API Test Route (Optional) ---
-// This is a simple route to confirm the backend is up when navigating to the root URL
+// --- API Test Route (Health Check) ---
+// This is what will show when you visit the backend URL (task-manager-epxz.vercel.app)
 app.get('/', (req, res) => {
     res.status(200).json({ message: 'Task Manager API is running successfully.' });
 });
