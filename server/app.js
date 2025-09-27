@@ -12,7 +12,7 @@ const app = express();
 // --- CORS Configuration (Production Ready) ---
 
 // Define the origins based on the environment
-const deployedFrontendUrl = process.env.FRONTEND_URL || 'https://your-frontend-name.vercel.app';
+const deployedFrontendUrl = process.env.FRONTEND_URL || 'https://task-manager-nl5c.vercel.app/';
 const localFrontendUrl = 'http://localhost:5173';
 
 const allowedOrigins = [
