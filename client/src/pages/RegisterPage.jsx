@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3000/api/auth/';
+const API_URL = 'https://task-manager-epxz.vercel.app/api/auth/';
 
 const RegisterPage = () => {
     const [username, setUsername] = useState('');
