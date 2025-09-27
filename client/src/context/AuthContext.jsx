@@ -4,7 +4,7 @@ import axios from 'axios';
 const AuthContext = createContext();
 
 // Base API URL for authentication
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://task-manager-epxz.vercel.app/api/'; 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'https://task-manager-ywqb.vercel.app/api/'; 
 const API_URL = API_BASE + 'auth/'; 
 
 export const AuthProvider = ({ children }) => {
